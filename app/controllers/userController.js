@@ -32,7 +32,7 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     let { email, password } = req.body;
-    // console.log(email, password)
+    console.log(email, password)
     password = password.toString();
     if (!email || !password) {
       res.send({ error: "Invalid login detail" });
@@ -51,7 +51,7 @@ const loginUser = async (req, res) => {
           expires: new Date(Date.now() + 25892000000),
           httpOnly: true,
         });
-        res.json({userId:userLogin._id,token}  );
+        res.json({userId:userLogin._id}  );
       }
     } else {
       res.status(400).json({ error: "Invalid login detail" });

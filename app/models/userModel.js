@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
 });
 
 userSchema.pre("save", async function (next) {
@@ -16,15 +16,20 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// Token generation method
+//token generate
 userSchema.methods.generateAuthToken = async function () {
   try {
-    let token = jwt.sign({ _id: this._id }, process.env.SECRET_KEY);
-    return token;
+    let token = jwt.sign({ _id: this._id }, process.env.SECRET_KEY) //Add Hear Your Security Key
+    this.tokens = this.tokens.concat({token})
+    await this.save()
+    return token
   } catch (error) {
-    console.log(error);
-    throw new Error('Failed to generate auth token');
+    console.log(error)
   }
-};
+}
 
 module.exports = mongoose.model('User', userSchema);
+
+
+
+
