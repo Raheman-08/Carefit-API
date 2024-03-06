@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run build:app",
     "build:app": "npx babel ./app/app.js -d ./dist",
-    "start": "node index.js"
+    "start": "node index.js",
+    "outDir": "./dist"
   },
   "author": "",
   "license": "ISC",
