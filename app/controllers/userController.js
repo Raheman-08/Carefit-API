@@ -61,4 +61,33 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = {loginUser,registerUser}
+// Log Out
+
+const logoutUser = async (req, res) => {
+  console.log(req.params.id);
+  if (req.params.id !== null) {
+      const user = await User.findById(req.params.id);
+      user.tokens = []
+    const { tokens } = user;
+    user.tokens = tokens.filter((item) => item.token != req.cookies.jwt);
+    await user.save();
+    console.log(req.cookies.jwt);
+    res.clearCookie("jwt").json({ message: "Logout successful..." });
+  }
+};
+
+// Single User
+
+const getSingleUser = async (req, res) => {
+  try {
+   if (req.params.id!==undefined) {
+    const user = await User.findById(req.params.id) 
+    console.log("Success...");
+    res.json(user)
+   }
+  } catch (error) {
+    console.log("UnSuccess...", error);
+  }
+};
+
+module.exports = {loginUser,registerUser, logoutUser, getSingleUser}
